@@ -1,0 +1,14 @@
+Html
+<h3>bKash / Nagad Payment</h3>
+<p>Send Money: 01XXXXXXXX</p>
+
+<input placeholder="Transaction ID">
+<button>Submit Payment</button>
+Firestore:
+Copy code
+
+payments
+ └─ userId
+    ├─ trxId
+    ├─ method
+    ├─ status: pending
