@@ -1,14 +1,53 @@
 Html
-<h3>bKash / Nagad Payment</h3>
-<p>Send Money: 01XXXXXXXX</p>
+<!DOCTYPE html>
+<html>
+<body>
 
-<input placeholder="Transaction ID">
-<button>Submit Payment</button>
-Firestore:
+<h2>Live Tournaments</h2>
+<div id="list"></div>
+
+<h3>Register Tournament</h3>
+<input id="tid" placeholder="Tournament ID">
+<select id="pay">
+  <option>bKash</option>
+  <option>Nagad</option>
+</select>
+<input id="trx" placeholder="Transaction ID">
+<button onclick="join()">Submit</button>
+
+<script type="module">
+import { auth, db } from './firebase.js';
+import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+const snap = await getDocs(collection(db,"tournaments"));
+snap.forEach(d => list.innerHTML += `<p>${d.data().name}</p>`);
+
+window.join = async () => {
+  await addDoc(collection(db,"registrations"),{
+    uid: auth.currentUser.uid,
+    tid: tid.value,
+    pay: pay.value,
+    trx: trx.value,
+    status: "pending"
+  });
+  alert("Submitted for verification");
+}
+</script>
+
+</body>
+</html>
+🛡️ Anti-Scam Protection (Firestore Rules)
 Copy code
-
-payments
- └─ userId
-    ├─ trxId
-    ├─ method
-    ├─ status: pending
+Js
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{db}/documents {
+  match /users/{uid} {
+    allow read, write: if request.auth.uid == uid;
+  }
+  match /registrations/{id} {
+    allow create: if request.auth != null;
+    allow read: if false;
+  }
+ }
+}
