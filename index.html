@@ -1,8 +1,23 @@
 Html
-<h2>Live Tournaments</h2>
-<div id="list"></div>
+<!DOCTYPE html>
+<html>
+<head><title>Login</title></head>
+<body>
+
+<h2>Login</h2>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
 
 <script type="module">
-import { db } from "./js/firebase.js";
-import { collection, getDocs } from 
-"https://www.gstatic.com/firebasejs/10.7.1/
+import { auth } from './firebase.js';
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+window.login = async () => {
+  await signInWithEmailAndPassword(auth, email.value, password.value);
+  location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
