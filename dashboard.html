@@ -1,0 +1,25 @@
+Html
+<input type="file" id="proof">
+Copy code
+Js
+import { getStorage, ref, uploadBytes, getDownloadURL }
+from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+
+const storage = getStorage();
+
+window.join = async () => {
+  const file = proof.files[0];
+  const imgRef = ref(storage, `payments/${auth.currentUser.uid}_${Date.now()}`);
+  await uploadBytes(imgRef, file);
+  const url = await getDownloadURL(imgRef);
+
+  await addDoc(collection(db,"registrations"),{
+    uid: auth.currentUser.uid,
+    tid: tid.value,
+    pay: pay.value,
+    trx: trx.value,
+    proof: url,
+    status: "pending"
+  });
+  alert("Submitted with screenshot");
+};
