@@ -2,156 +2,137 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Free Fire Tournament</title>
+<title>Player Registration & Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
+body{
+  background:#0f172a;
+  font-family:Arial,sans-serif;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
-header {
-  padding: 60px 20px;
-  text-align: center;
-  background: linear-gradient(120deg, #ff512f, #dd2476);
+.box{
+  background:#1e293b;
+  padding:20px;
+  border-radius:10px;
+  width:320px;
 }
-
-header h1 {
-  font-size: 38px;
-  margin-bottom: 10px;
+h2{
+  text-align:center;
 }
-
-header p {
-  font-size: 18px;
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+  border:none;
 }
-
-section {
-  padding: 50px 20px;
-  max-width: 1000px;
-  margin: auto;
+button{
+  width:100%;
+  padding:10px;
+  background:#22c55e;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
 }
-
-.card {
-  background: #1e293b;
-  padding: 25px;
-  border-radius: 15px;
-  margin-bottom: 25px;
+button:hover{
+  background:#16a34a;
 }
-
-h2 {
-  margin-top: 0;
-  color: #facc15;
+.switch{
+  text-align:center;
+  margin-top:10px;
+  cursor:pointer;
+  color:#38bdf8;
 }
-
-.btn {
-  display: inline-block;
-  margin-top: 20px;
-  background: linear-gradient(45deg, #22c55e, #16a34a);
-  color: white;
-  padding: 15px 35px;
-  border-radius: 40px;
-  font-size: 18px;
-  text-decoration: none;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-.btn:hover {
-  opacity: 0.9;
-}
-
-.countdown {
-  font-size: 26px;
-  text-align: center;
-  margin-top: 20px;
-}
-
-footer {
-  text-align: center;
-  padding: 25px;
-  background: #020617;
-  font-size: 14px;
-  opacity: 0.7;
+.msg{
+  text-align:center;
+  margin-top:8px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🔥 Free Fire Tournament 🔥</h1>
-  <p>Compete • Win • Glory</p>
+<div class="box">
 
-  <a class="btn" href="https://forms.gle/fcVwyrS6dTfR9uPk6" target="_blank">
-    Register Now
-  </a>
-</header>
-
-<section>
-  <div class="card">
-    <h2>📅 Tournament Details</h2>
-    <p>📆 Date: 20 February 2026</p>
-    <p>⏰ Time: 8:00 PM</p>
-    <p>👥 Mode: Squad</p>
-    <p>💰 Entry Fee: FREE</p>
+  <!-- REGISTRATION -->
+  <div id="registerBox">
+    <h2>Registration</h2>
+    <input id="r_name" placeholder="Player Name">
+    <input id="r_uid" placeholder="Free Fire UID">
+    <input id="r_whatsapp" placeholder="WhatsApp Number">
+    <button onclick="register()">Register</button>
+    <div class="msg" id="r_msg"></div>
+    <div class="switch" onclick="showLogin()">Already registered? Login</div>
   </div>
 
-  <div class="card">
-    <h2>🏆 Prize Pool</h2>
-    <p>🥇 1st Prize: 1000৳</p>
-    <p>🥈 2nd Prize: 500৳</p>
-    <p>🥉 3rd Prize: 300৳</p>
+  <!-- LOGIN -->
+  <div id="loginBox" style="display:none;">
+    <h2>Login</h2>
+    <input id="l_name" placeholder="Player Name">
+    <input id="l_uid" placeholder="Free Fire UID">
+    <input id="l_whatsapp" placeholder="WhatsApp Number">
+    <button onclick="login()">Login</button>
+    <div class="msg" id="l_msg"></div>
+    <div class="switch" onclick="showRegister()">New user? Register</div>
   </div>
 
-  <div class="card">
-    <h2>⏳ Tournament Starts In</h2>
-    <div class="countdown" id="timer">Loading...</div>
-  </div>
-
-  <div class="card">
-    <h2>📜 Rules</h2>
-    <ul>
-      <li>No hacks or cheats</li>
-      <li>Custom room ID will be shared</li>
-      <li>Late join not allowed</li>
-      <li>Decision of admin is final</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>📞 Contact</h2>
-    <a class="btn" href="https://wa.me/8801XXXXXXXXX" target="_blank">
-      WhatsApp Admin
-    </a>
-  </div>
-</section>
-
-<footer>
-  © 2026 Free Fire Tournament | Powered by GitHub Pages
-</footer>
+</div>
 
 <script>
-const eventDate = new Date("Feb 20, 2026 20:00:00").getTime();
+function showLogin(){
+  document.getElementById("registerBox").style.display="none";
+  document.getElementById("loginBox").style.display="block";
+}
+function showRegister(){
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("registerBox").style.display="block";
+}
 
-setInterval(() => {
-  const now = new Date().getTime();
-  const diff = eventDate - now;
+function register(){
+  const name = r_name.value.trim();
+  const uid = r_uid.value.trim();
+  const whatsapp = r_whatsapp.value.trim();
 
-  if (diff < 0) {
-    document.getElementById("timer").innerHTML = "Tournament Started!";
+  if(!name || !uid || !whatsapp){
+    r_msg.style.color="red";
+    r_msg.innerText="সব তথ্য পূরণ করো!";
     return;
   }
 
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const m = Math.floor((diff / (1000 * 60)) % 60);
-  const s = Math.floor((diff / 1000) % 60);
+  const user = { name, uid, whatsapp };
+  localStorage.setItem("player", JSON.stringify(user));
 
-  document.getElementById("timer").innerHTML =
-    `${d}d ${h}h ${m}m ${s}s`;
-}, 1000);
+  r_msg.style.color="lightgreen";
+  r_msg.innerText="Registration Successful ✅";
+}
+
+function login(){
+  const savedUser = JSON.parse(localStorage.getItem("player"));
+  if(!savedUser){
+    l_msg.style.color="red";
+    l_msg.innerText="আগে Registration করো!";
+    return;
+  }
+
+  if(
+    l_name.value === savedUser.name &&
+    l_uid.value === savedUser.uid &&
+    l_whatsapp.value === savedUser.whatsapp
+  ){
+    l_msg.style.color="lightgreen";
+    l_msg.innerText="Login Successful 🎉";
+    // এখানে dashboard redirect করা যাবে
+  }else{
+    l_msg.style.color="red";
+    l_msg.innerText="তথ্য মিলছে না!";
+  }
+}
 </script>
 
 </body>
