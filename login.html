@@ -1,22 +1,20 @@
+Html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>User Login</title>
+  <title>Login</title>
 </head>
 <body>
 
-  <h2>User Login</h2>
+<h2>Login</h2>
 
-  <input type="email" id="email" placeholder="Email" required><br><br>
-  <input type="password" id="password" placeholder="Password" required><br><br>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="login()">Login</button>
 
-  <button onclick="loginUser()">Login</button>
+<p id="msg"></p>
 
-  <p id="msg"></p>
-
-  <!-- Firebase SDK -->
-  <script type="module" src="login.js"></script>
-
-</body>
-</html>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } 
+  from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
