@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* 🔐 Registrations Collection */
+    match /registrations/{regId} {
+
+      // 🔎 Anyone can read their own data (optional)
+      allow read: if true;
+
+      // ✅ Create with Anti-Scam Protection
+      allow create: if request.auth != null
+        && isValidRegistration()
+        && !isDuplicateUID()
+        && !isSameUserSameTournament();
+
+      // ❌ User cannot update/delete
+      allow update, delete: if false;
+    }
+
+    /* 🔐 Helper Functions */
+
+    function isValidRegistration() {
+      return request.resource.data.ff_uid is string
+        && request.resource.data.ff_uid.size() > 3
+        && request.resource.data.tournamentId is string
+        && request.resource.data.whatsapp is string
+        && request.resource.data.status == "pending"
+        && request.resource.data.createdAt == request.time;
+    }
+
+    // 🚫 Same Free Fire UID → Same Tournament
+    function isDuplicateUID() {
+      return exists(
+        /databases/$(database)/documents/registrations/{
+          request.resource.data.ff_uid
+          + "_" +
+          request.resource.data.tournamentId
+        }
+      );
+    }
+
+    // 🚫 Same User → Same Tournament once
+    function isSameUserSameTournament() {
+      return request.resource.data.userId != null
+        && exists(
+          /databases/$(database)/documents/registrations/{
+            request.resource.data.userId
+            + "_" +
+            request.resource.data.tournamentId
+          }
+        );
+    }
+  }
+}
