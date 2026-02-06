@@ -1,9 +1,43 @@
 Html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>User Registration</h2>
+
 <input id="name" placeholder="Player Name">
-<input id="ffuid" placeholder="Free Fire UID">
-<input id="phone" placeholder="WhatsApp Number">
+<input id="uid" placeholder="Free Fire UID">
+<input id="whatsapp" placeholder="WhatsApp Number">
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
+
 <button onclick="register()">Register</button>
 
-<script type="module" src="js/register.js"></script>
+<script type="module">
+import { auth, db } from './firebase.js';
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+window.register = async () => {
+  const email = email.value;
+  const password = password.value;
+
+  const user = await createUserWithEmailAndPassword(auth, email, password);
+
+  await setDoc(doc(db, "users", user.user.uid), {
+    name: name.value,
+    ffuid: uid.value,
+    whatsapp: whatsapp.value,
+    email
+  });
+
+  alert("Registration Successful");
+  location.href = "index.html";
+}
+</script>
+</body>
+</html>
