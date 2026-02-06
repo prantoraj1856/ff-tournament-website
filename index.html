@@ -1,43 +1,143 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Registration Form</title>
+  <title>Free Fire Tournament Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.4);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .info p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 15px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      background: #22c55e;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .wa-btn {
+      background: #25d366;
+      color: #000;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.7;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Player Registration</h2>
+<div class="container">
 
-<form id="regForm">
-  <input type="text" placeholder="Player ID" id="player_id" required><br><br>
-  <input type="text" placeholder="UID" id="uid" required><br><br>
-  <input type="text" placeholder="WhatsApp Number" id="whatsapp" required><br><br>
-  <button type="submit">Submit</button>
-</form>
+  <!-- Tournament Details -->
+  <div class="card info">
+    <h2>🏆 Tournament Details</h2>
+    <p>📅 Date: 10 February 2026</p>
+    <p>💰 Entry Fee: FREE</p>
+    <p>🏅 Prize Pool: 500 BDT</p>
+    <p>👥 Match Type: Squad</p>
+  </div>
 
-<p id="msg"></p>
+  <!-- Registration Form -->
+  <div class="card">
+    <h2>📝 Registration Form</h2>
 
-<script>
-document.getElementById("regForm").addEventListener("submit", function(e){
-  e.preventDefault();
+    <form
+      action="https://docs.google.com/forms/d/e/FORM_ID/formResponse"
+      method="POST"
+      target="_blank"
+    >
 
-  fetch("👉এখানে তোমার Google Apps Script Web App URL বসাও👈", {
-    method: "POST",
-    body: JSON.stringify({
-      player_id: document.getElementById("player_id").value,
-      uid: document.getElementById("uid").value,
-      whatsapp: document.getElementById("whatsapp").value
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("msg").innerText = "✅ Successfully Submitted!";
-  })
-  .catch(() => {
-    document.getElementById("msg").innerText = "❌ Error!";
-  });
-});
-</script>
+      <!-- Player Name -->
+      <input
+        type="text"
+        name="entry.1111111111"
+        placeholder="Player Name"
+        required
+      >
+
+      <!-- Free Fire UID -->
+      <input
+        type="text"
+        name="entry.2222222222"
+        placeholder="Free Fire UID"
+        required
+      >
+
+      <!-- WhatsApp Number -->
+      <input
+        type="text"
+        name="entry.3333333333"
+        placeholder="WhatsApp Number"
+        required
+      >
+
+      <button type="submit" class="submit-btn">
+        Submit Registration
+      </button>
+    </form>
+
+    <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank">
+      <button class="wa-btn">Join WhatsApp Group</button>
+    </a>
+
+  </div>
+
+  <footer>
+    © 2026 Free Fire Tournament | Powered by GitHub Pages
+  </footer>
+
+</div>
 
 </body>
 </html>
