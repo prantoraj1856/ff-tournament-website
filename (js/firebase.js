@@ -6,9 +6,9 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/9.23.0/firebase
 
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
   projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
   messagingSenderId: "XXXX",
   appId: "XXXX"
 };
@@ -16,4 +16,4 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-</script>
+</script>Html
