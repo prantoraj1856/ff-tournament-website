@@ -1,143 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Free Fire Tournament Registration</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Free Fire Tournament</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
 
-    .container {
-      max-width: 420px;
-      margin: 30px auto;
-      padding: 20px;
-    }
+header {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(120deg, #ff512f, #dd2476);
+}
 
-    .card {
-      background: #1e293b;
-      border-radius: 15px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,.4);
-    }
+header h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
+header p {
+  font-size: 18px;
+}
 
-    .info p {
-      margin: 8px 0;
-      font-size: 16px;
-    }
+section {
+  padding: 50px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
 
-    input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
-      margin-bottom: 15px;
-      font-size: 15px;
-    }
+.card {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+}
 
-    button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+h2 {
+  margin-top: 0;
+  color: #facc15;
+}
 
-    .submit-btn {
-      background: #22c55e;
-      color: #000;
-      margin-bottom: 10px;
-    }
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  color: white;
+  padding: 15px 35px;
+  border-radius: 40px;
+  font-size: 18px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
 
-    .wa-btn {
-      background: #25d366;
-      color: #000;
-    }
+.btn:hover {
+  opacity: 0.9;
+}
 
-    footer {
-      text-align: center;
-      font-size: 13px;
-      opacity: 0.7;
-      margin-top: 10px;
-    }
-  </style>
+.countdown {
+  font-size: 26px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  background: #020617;
+  font-size: 14px;
+  opacity: 0.7;
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
+<header>
+  <h1>🔥 Free Fire Tournament 🔥</h1>
+  <p>Compete • Win • Glory</p>
 
-  <!-- Tournament Details -->
-  <div class="card info">
-    <h2>🏆 Tournament Details</h2>
-    <p>📅 Date: 10 February 2026</p>
-    <p>💰 Entry Fee: FREE</p>
-    <p>🏅 Prize Pool: 500 BDT</p>
-    <p>👥 Match Type: Squad</p>
-  </div>
+  <a class="btn" href="https://forms.gle/fcVwyrS6dTfR9uPk6" target="_blank">
+    Register Now
+  </a>
+</header>
 
-  <!-- Registration Form -->
+<section>
   <div class="card">
-    <h2>📝 Registration Form</h2>
-
-    <form
-      action="https://docs.google.com/forms/d/e/FORM_ID/formResponse"
-      method="POST"
-      target="_blank"
-    >
-
-      <!-- Player Name -->
-      <input
-        type="text"
-        name="entry.1111111111"
-        placeholder="Player Name"
-        required
-      >
-
-      <!-- Free Fire UID -->
-      <input
-        type="text"
-        name="entry.2222222222"
-        placeholder="Free Fire UID"
-        required
-      >
-
-      <!-- WhatsApp Number -->
-      <input
-        type="text"
-        name="entry.3333333333"
-        placeholder="WhatsApp Number"
-        required
-      >
-
-      <button type="submit" class="submit-btn">
-        Submit Registration
-      </button>
-    </form>
-
-    <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank">
-      <button class="wa-btn">Join WhatsApp Group</button>
-    </a>
-
+    <h2>📅 Tournament Details</h2>
+    <p>📆 Date: 20 February 2026</p>
+    <p>⏰ Time: 8:00 PM</p>
+    <p>👥 Mode: Squad</p>
+    <p>💰 Entry Fee: FREE</p>
   </div>
 
-  <footer>
-    © 2026 Free Fire Tournament | Powered by GitHub Pages
-  </footer>
+  <div class="card">
+    <h2>🏆 Prize Pool</h2>
+    <p>🥇 1st Prize: 1000৳</p>
+    <p>🥈 2nd Prize: 500৳</p>
+    <p>🥉 3rd Prize: 300৳</p>
+  </div>
 
-</div>
+  <div class="card">
+    <h2>⏳ Tournament Starts In</h2>
+    <div class="countdown" id="timer">Loading...</div>
+  </div>
+
+  <div class="card">
+    <h2>📜 Rules</h2>
+    <ul>
+      <li>No hacks or cheats</li>
+      <li>Custom room ID will be shared</li>
+      <li>Late join not allowed</li>
+      <li>Decision of admin is final</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>📞 Contact</h2>
+    <a class="btn" href="https://wa.me/8801XXXXXXXXX" target="_blank">
+      WhatsApp Admin
+    </a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Free Fire Tournament | Powered by GitHub Pages
+</footer>
+
+<script>
+const eventDate = new Date("Feb 20, 2026 20:00:00").getTime();
+
+setInterval(() => {
+  const now = new Date().getTime();
+  const diff = eventDate - now;
+
+  if (diff < 0) {
+    document.getElementById("timer").innerHTML = "Tournament Started!";
+    return;
+  }
+
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("timer").innerHTML =
+    `${d}d ${h}h ${m}m ${s}s`;
+}, 1000);
+</script>
 
 </body>
 </html>
