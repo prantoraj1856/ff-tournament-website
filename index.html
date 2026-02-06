@@ -15,3 +15,50 @@ function doPost(e) {
     .createTextOutput(JSON.stringify({status: "success"}))
     .setMimeType(ContentService.MimeType.JSON);
 }
+Html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Tournament Registration</title>
+</head>
+<body>
+
+<h2>Join Tournament</h2>
+
+<form id="tournamentForm">
+  <input type="text" name="player_id" placeholder="Player ID" required><br><br>
+  <input type="text" name="uid" placeholder="UID" required><br><br>
+  <input type="text" name="whatsapp" placeholder="WhatsApp Number" required><br><br>
+  <button type="submit">Submit</button>
+</form>
+
+<p id="msg"></p>
+
+<script>
+document.getElementById("tournamentForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const formData = {
+    player_id: this.player_id.value,
+    uid: this.uid.value,
+    whatsapp: this.whatsapp.value
+  };
+
+  fetch("PASTE_YOUR_WEB_APP_URL_HERE", {
+    method: "POST",
+    body: JSON.stringify(formData)
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("msg").innerText = "✅ Successfully Registered!";
+    this.reset();
+  })
+  .catch(err => {
+    document.getElementById("msg").innerText = "❌ Submission Failed!";
+  });
+});
+</script>
+
+</body>
+</html>
