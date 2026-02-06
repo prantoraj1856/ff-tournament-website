@@ -1,10 +1,95 @@
-Html
-<h2>Admin Panel</h2>
-<button onclick="addTournament()">Add Tournament</button>
-<div id="adminList"></div>
-Admin Features
-✅ Tournament Add / Edit / Delete
-✅ User Ban / Unban
-✅ Payment Verify
-✅ Fake UID Detect
-✅ Multi Account Detect
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>🛂 Admin Dashboard</h2>
+
+<h3>Add Tournament</h3>
+<input id="tname" placeholder="Tournament Name">
+<input id="tfee" placeholder="Entry Fee">
+<button onclick="addTournament()">Add</button>
+
+<hr>
+
+<h3>All Tournaments</h3>
+<div id="tournaments"></div>
+
+<hr>
+
+<h3>Pending Registrations</h3>
+<div id="regs"></div>
+
+<script type="module">
+import { auth, db } from './firebase.js';
+import {
+  collection, addDoc, getDocs,
+  deleteDoc, doc, updateDoc
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+/* 🔐 Admin Email */
+const ADMIN_EMAIL = "admin@gmail.com";
+
+/* 🔐 Admin Guard */
+onAuthStateChanged(auth, user => {
+  if (!user || user.email !== ADMIN_EMAIL) {
+    alert("Access Denied");
+    location.href = "index.html";
+  }
+});
+
+/* ➕ Add Tournament */
+window.addTournament = async () => {
+  await addDoc(collection(db, "tournaments"), {
+    name: tname.value,
+    fee: tfee.value
+  });
+  alert("Tournament Added");
+  location.reload();
+};
+
+/* 📋 Load Tournaments */
+const tSnap = await getDocs(collection(db,"tournaments"));
+tSnap.forEach(d => {
+  tournaments.innerHTML += `
+    <p>
+      ${d.data().name} - ${d.data().fee}৳
+      <button onclick="delT('${d.id}')">Delete</button>
+    </p>`;
+});
+window.delT = async (id) => {
+  await deleteDoc(doc(db,"tournaments",id));
+  location.reload();
+};
+
+/* 🧾 Load Registrations */
+const rSnap = await getDocs(collection(db,"registrations"));
+rSnap.forEach(d => {
+  const r = d.data();
+  if(r.status === "pending"){
+    regs.innerHTML += `
+      <div>
+        UID: ${r.uid}<br>
+        Tournament: ${r.tid}<br>
+        Pay: ${r.pay}<br>
+        TRX: ${r.trx}<br>
+        <img src="${r.proof}" width="120"><br>
+        <button onclick="approve('${d.id}')">Approve</button>
+        <button onclick="reject('${d.id}')">Reject</button>
+      </div><hr>`;
+  }
+});
+window.approve = async (id)=>{
+  await updateDoc(doc(db,"registrations",id),{status:"approved"});
+  location.reload();
+}
+window.reject = async (id)=>{
+  await deleteDoc(doc(db,"registrations",id));
+  location.reload();
+}
+</script>
+</body>
+</html>
