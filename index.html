@@ -1,151 +1,43 @@
-Javascript
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-
-  var data = JSON.parse(e.postData.contents);
-
-  sheet.appendRow([
-    new Date(),
-    data.player_id,
-    data.uid,
-    data.whatsapp
-  ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({status: "success"}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-Html
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Tournament Registration</title>
+  <title>Registration Form</title>
 </head>
 <body>
 
-<h2>Join Tournament</h2>
+<h2>Player Registration</h2>
 
-<form id="tournamentForm">
-  <input type="text" name="player_id" placeholder="Player ID" required><br><br>
-  <input type="text" name="uid" placeholder="UID" required><br><br>
-  <input type="text" name="whatsapp" placeholder="WhatsApp Number" required><br><br>
+<form id="regForm">
+  <input type="text" placeholder="Player ID" id="player_id" required><br><br>
+  <input type="text" placeholder="UID" id="uid" required><br><br>
+  <input type="text" placeholder="WhatsApp Number" id="whatsapp" required><br><br>
   <button type="submit">Submit</button>
 </form>
 
 <p id="msg"></p>
 
 <script>
-document.getElementById("tournamentForm").addEventListener("submit", function(e){
+document.getElementById("regForm").addEventListener("submit", function(e){
   e.preventDefault();
 
-  const formData = {
-    player_id: this.player_id.value,
-    uid: this.uid.value,
-    whatsapp: this.whatsapp.value
-  };
-
-  fetch("PASTE_YOUR_WEB_APP_URL_HERE", {
+  fetch("👉এখানে তোমার Google Apps Script Web App URL বসাও👈", {
     method: "POST",
-    body: JSON.stringify(formData)
+    body: JSON.stringify({
+      player_id: document.getElementById("player_id").value,
+      uid: document.getElementById("uid").value,
+      whatsapp: document.getElementById("whatsapp").value
+    })
   })
   .then(res => res.json())
   .then(data => {
-    document.getElementById("msg").innerText = "✅ Successfully Registered!";
-    this.reset();
+    document.getElementById("msg").innerText = "✅ Successfully Submitted!";
   })
-  .catch(err => {
-    document.getElementById("msg").innerText = "❌ Submission Failed!";
+  .catch(() => {
+    document.getElementById("msg").innerText = "❌ Error!";
   });
 });
 </script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Free Fire Tournament</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-    }
-    header {
-      background: linear-gradient(135deg, #ff512f, #dd2476);
-      padding: 30px 15px;
-    }
-    section {
-      padding: 20px;
-    }
-    .card {
-      background: #1e293b;
-      margin: 15px auto;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 400px;
-    }
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: none;
-    }
-    button {
-      background: #22c55e;
-      color: black;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .whatsapp {
-      background: #25D366;
-      color: black;
-      margin-top: 10px;
-    }
-    footer {
-      font-size: 14px;
-      opacity: 0.7;
-      margin: 20px 0;
-    }
-  </style>
-</head>
-<body>
-
-<header>
-  <h1>🔥 Free Fire Tournament 🔥</h1>
-  <p>Registration Open Now!</p>
-</header>
-
-<section class="card">
-  <h2>🏆 Tournament Details</h2>
-  <p>📅 Date: 10 February 2026</p>
-  <p>💰 Entry Fee: FREE</p>
-  <p>🏅 Prize Pool: 500 BDT</p>
-  <p>👥 Match Type: Squad</p>
-</section>
-
-<section class="card">
-  <h2>📝 Registration Form</h2>
-  <input type="text" placeholder="Player Name">
-  <input type="text" placeholder="Free Fire UID">
-  <input type="text" placeholder="WhatsApp Number">
-  <button>Submit Registration</button>
-
-  <a href="https://wa.me/8801XXXXXXXXX" target="_blank">
-    <button class="whatsapp">Join WhatsApp Group</button>
-  </a>
-</section>
-
-<footer>
-  © 2026 Free Fire Tournament | Powered by GitHub Pages
-</footer>
 
 </body>
 </html>
