@@ -1,0 +1,14 @@
+Js
+// Check user banned / duplicate FF UID
+if(user.banned === true){
+ alert("You are banned");
+ return;
+}
+
+// Same FF UID block
+query where ffuid == current ffuid
+👉 Anti-Fake Logic
+Same FF UID = ❌ block
+Same Phone = ❌ block
+Same Device UA = ⚠️ flag
+Admin manual ban option
