@@ -5,39 +5,24 @@
 </head>
 <body>
 
-<h2>Dashboard</h2>
-
-<p id="userEmail"></p>
-
+<h2>Welcome to Dashboard 🎉</h2>
 <button onclick="logout()">Logout</button>
 
 <script type="module">
+import { auth } from "./firebase.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-import { auth } from './firebase.js';
-import { onAuthStateChanged, signOut } 
-from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-// যদি login না থাকে → login page এ পাঠাবে
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    document.getElementById("userEmail").innerText =
-      "Logged in as: " + user.email;
-  } else {
-    window.location.href = "login.html";
+  if (!user) {
+    window.location.href = "index.html";
   }
 });
 
-// Logout function
-window.logout = function() {
-  signOut(auth)
-    .then(() => {
-      window.location.href = "login.html";
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
+window.logout = function () {
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
 };
-
 </script>
 
 </body>
