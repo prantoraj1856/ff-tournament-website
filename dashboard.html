@@ -1,58 +1,56 @@
-Html
-<input type="file" id="proof">
-Copy code
-Js
-import { getStorage, ref, uploadBytes, getDownloadURL }
-from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
 
-const storage = getStorage();
+<h2>Welcome to Dashboard</h2>
 
-window.join = async () => {
-  const file = proof.files[0];
-  const imgRef = ref(storage, `payments/${auth.currentUser.uid}_${Date.now()}`);
-  await uploadBytes(imgRef, file);
-  const url = await getDownloadURL(imgRef);
+<p id="userEmail"></p>
 
-  await addDoc(collection(db,"registrations"),{
-    uid: auth.currentUser.uid,
-    tid: tid.value,
-    pay: pay.value,
-    trx: trx.value,
-    proof: url,
-    status: "pending"
-  });
-  alert("Submitted with screenshot");
-};Js
-import { query, where } from
-"https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+<button onclick="logout()">Logout</button>
 
-const q = query(
-  collection(db,"registrations"),
-  where("uid","==",auth.currentUser.uid),
-  where("tid","==",tid.value)
-);
-const snap = await getDocs(q);
-if(!snap.empty){
-  alert("Already registered!");
-  return;
-}Js
-rules_version = '2';
-service cloud.firestore {
- match /databases/{db}/documents {
+<script type="module">
 
-  match /users/{uid} {
-    allow read, write: if request.auth.uid == uid;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { 
+  getAuth, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Check login user
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("userEmail").innerText = "Logged in as: " + user.email;
+  } else {
+    window.location.href = "login.html";
   }
+});
 
-  match /tournaments/{id} {
-    allow read: if true;
-    allow write: if request.auth.token.email == "admin@gmail.com";
-  }
-
-  match /registrations/{id} {
-    allow create: if request.auth != null;
-    allow read, update, delete:
-      if request.auth.token.email == "admin@gmail.com";
-  }
- }
+// Logout function
+window.logout = function() {
+  signOut(auth)
+    .then(() => {
+      window.location.href = "login.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
 }
+
+</script>
+
+</body>
