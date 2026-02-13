@@ -22,16 +22,22 @@ import { signInWithEmailAndPassword } from
 
 window.login = function() {
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const msg = document.getElementById("msg");
+
+  if (!email || !password) {
+    msg.innerText = "Please enter email and password";
+    return;
+  }
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      document.getElementById("msg").innerText = "Login Successful ✅";
+      msg.innerText = "Login Successful ✅";
       window.location.href = "dashboard.html";
     })
     .catch((error) => {
-      document.getElementById("msg").innerText = error.message;
+      msg.innerText = error.message;
     });
 
 }
