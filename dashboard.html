@@ -7,12 +7,16 @@
 
 <h2>Welcome to Dashboard 🎉</h2>
 
+<p id="userEmail"></p>
+
 <button onclick="logout()">Logout</button>
 
 <script type="module">
 
+// Firebase CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -25,22 +29,33 @@ const firebaseConfig = {
   measurementId: "G-V3SWSEZWC3"
 };
 
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// 🔒 Check user login
+// Check Login State
 onAuthStateChanged(auth, (user) => {
-  if (!user) {
+  if (user) {
+    // ✅ Email দেখাবে
+    document.getElementById("userEmail").innerHTML =
+      "Logged in as: <b>" + user.email + "</b>";
+  } else {
+    // ❌ Login না থাকলে login page এ পাঠাবে
     window.location.href = "index.html";
   }
 });
 
-window.logout = function() {
-  signOut(auth).then(() => {
-    window.location.href = "index.html";
-  });
-}
+// Logout Function
+window.logout = function () {
+  signOut(auth)
+    .then(() => {
+      alert("Logged out successfully");
+      window.location.href = "index.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+};
 
 </script>
 
