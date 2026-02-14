@@ -1,8 +1,9 @@
-// Import Firebase
+// Import Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
 
-// Your Firebase config
+// Your Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyBZgNI29JXE4jywdgC_Pnyw_FV2vw2KYAw",
   authDomain: "pranto-ff.firebaseapp.com",
@@ -16,5 +17,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export Auth
-export const auth = getAuth(app);
+// Initialize Services
+const auth = getAuth(app);
+const analytics = getAnalytics(app);
+
+// Export auth so other files can use it
+export { auth };
