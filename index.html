@@ -14,16 +14,15 @@
 
 <p id="msg"></p>
 
-<!-- Firebase CDN -->
 <script type="module">
 
 // Import Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } 
 from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-  
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig 
+
+// Firebase Config
+const firebaseConfig = {
   apiKey: "AIzaSyBZgNI29JXE4jywdgC_Pnyw_FV2vw2KYAw",
   authDomain: "pranto-ff.firebaseapp.com",
   projectId: "pranto-ff",
@@ -31,7 +30,6 @@ const firebaseConfig
   messagingSenderId: "936271925064",
   appId: "1:936271925064:web:f1710b460c94ff1aee2d7d",
   measurementId: "G-V3SWSEZWC3"
-};
 };
 
 // Initialize Firebase
@@ -48,7 +46,6 @@ window.login = function() {
     .then((userCredential) => {
         document.getElementById("msg").innerHTML = "Login Successful ✅";
         
-        // Redirect to Dashboard
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 1000);
