@@ -6,15 +6,15 @@
 <body>
 
 <h2>Welcome to Dashboard 🎉</h2>
+
 <button onclick="logout()">Logout</button>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, signOut, onAuthStateChanged } 
-from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-// Firebase Config
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBZgNI29JXE4jywdgC_Pnyw_FV2vw2KYAw",
   authDomain: "pranto-ff.firebaseapp.com",
@@ -25,20 +25,22 @@ const firebaseConfig = {
   measurementId: "G-V3SWSEZWC3"
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+// 🔒 Check user login
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   }
 });
 
-// Logout Function
 window.logout = function() {
   signOut(auth).then(() => {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   });
-};
+}
 
 </script>
 
