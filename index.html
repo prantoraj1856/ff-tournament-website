@@ -7,21 +7,17 @@
 
 <h2>Login</h2>
 
-<input type="email" id="email" placeholder="Enter Email"><br><br>
-<input type="password" id="password" placeholder="Enter Password"><br><br>
+<input type="email" id="email" placeholder="Email"><br><br>
+<input type="password" id="password" placeholder="Password"><br><br>
 
 <button onclick="login()">Login</button>
 
 <p id="msg"></p>
 
 <script type="module">
-
-// Import Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyBZgNI29JXE4jywdgC_Pnyw_FV2vw2KYAw",
   authDomain: "pranto-ff.firebaseapp.com",
@@ -32,30 +28,22 @@ const firebaseConfig = {
   measurementId: "G-V3SWSEZWC3"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Login Function
 window.login = function() {
-
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-        document.getElementById("msg").innerHTML = "Login Successful ✅";
-        
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 1000);
+      document.getElementById("msg").innerHTML = "Login Successful ✅";
+      window.location.href = "dashboard.html";
     })
     .catch((error) => {
-        document.getElementById("msg").innerHTML = error.message;
+      document.getElementById("msg").innerHTML = error.message;
     });
-
 }
-
 </script>
 
 </body>
