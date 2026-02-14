@@ -1,3 +1,5 @@
+Html
+Copy code
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,22 +16,29 @@
 <p id="msg"></p>
 
 <script type="module">
-import { auth } from "./firebase.js";
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { auth } from './firebase.js';
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 const loginBtn = document.getElementById("loginBtn");
 
 loginBtn.addEventListener("click", () => {
+
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then((userCredential) => {
+
       document.getElementById("msg").innerText = "Login Successful ✅";
+
+      // 🔥 Redirect
+      window.location.href = "dashboard.html";
+
     })
     .catch((error) => {
       document.getElementById("msg").innerText = error.message;
     });
+
 });
 </script>
 
