@@ -24,20 +24,19 @@ import {
   updateProfile 
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBZgNI29JXE4jywdgC_Pnyw_FV2vw2KYAw",
+  apiKey: "YOUR_API_KEY",
   authDomain: "pranto-ff.firebaseapp.com",
   projectId: "pranto-ff",
   storageBucket: "pranto-ff.firebasestorage.app",
   messagingSenderId: "936271925064",
-  appId: "1:936271925064:web:f1710b460c94ff1aee2d7d",
-  measurementId: "G-V3SWSEZWC3"
+  appId: "1:936271925064:web:f1710b460c94ff1aee2d7d"
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.signup = function () {
+window.signup = async function () {
 
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
@@ -49,23 +48,23 @@ window.signup = function () {
     return;
   }
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+  try {
 
-      updateProfile(userCredential.user, {
-        displayName: name
-      });
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      msg.innerText = "Account Created Successfully ✅";
-
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1500);
-
-    })
-    .catch((error) => {
-      msg.innerText = error.message;
+    await updateProfile(userCredential.user, {
+      displayName: name
     });
+
+    msg.innerText = "Account Created Successfully ✅";
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1500);
+
+  } catch (error) {
+    msg.innerText = error.message;
+  }
 
 }
 
