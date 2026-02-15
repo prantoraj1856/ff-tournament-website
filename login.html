@@ -36,27 +36,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 // Login Function
-window.login = function() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+window.login = async function() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      document.getElementById("msg").innerHTML = "Login Successful ✅";
-      window.location.href = "dashboard.html";
-    })
-    .catch((error) => {
-      document.getElementById("msg").innerHTML = error.message;
-    });
-};
-
-// যদি আগে থেকেই লগইন থাকে → সরাসরি ড্যাশবোর্ডে যাবে
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    window.location.href = "dashboard.html";
+  if(!email || !password){
+    document.getElementById("msg").innerText = "Please fill all fields!";
+    return;
   }
-});
 
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    document.getElementById("msg").innerText = error.message;
+  }
+}
 </script>
 
 </body>
