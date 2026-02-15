@@ -1,54 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      font-family: Arial, sans-serif;
-    }
+<title>Dashboard</title>
 
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      width: 320px;
-    }
+<style>
+body{
+  font-family: Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background: linear-gradient(135deg,#6a5acd,#836fff);
+  transition:0.3s;
+}
 
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #667eea;
-      color: white;
-      cursor: pointer;
-      margin-top: 15px;
-    }
+.card{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  width:320px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  transition:0.3s;
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
-  </style>
+img{
+  width:80px;
+  border-radius:50%;
+  margin-bottom:15px;
+}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  margin:5px;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+.dark{
+  background:#121212;
+}
+
+.dark .card{
+  background:#1e1e1e;
+  color:white;
+}
+
+.admin{
+  margin-top:15px;
+  padding:10px;
+  background:#ffeaa7;
+  border-radius:10px;
+}
+</style>
+
 </head>
 <body>
 
 <div class="card">
-  <h2>Welcome 🎉</h2>
-  <p id="userEmail">Checking login...</p>
-  <button id="logoutBtn">Logout</button>
+  <img src="https://i.pravatar.cc/150" alt="profile">
+  <h2 id="userName">Loading...</h2>
+  <p id="userEmail"></p>
+
+  <button onclick="logout()">Logout</button>
+  <button onclick="toggleDark()">Dark Mode</button>
+
+  <div id="adminPanel"></div>
 </div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { 
+  getAuth, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+import { 
+  getFirestore, 
+  doc, 
+  getDoc 
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBZgNI29JXE4jywdgC_Pnyw_FV2vw2KYAw",
@@ -60,29 +100,62 @@ const firebaseConfig = {
   measurementId: "G-V3SWSEZWC3"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-// Protected Route
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    document.getElementById("userEmail").innerText = "Logged in as: " + user.email;
-  } else {
+onAuthStateChanged(auth, async(user) => {
+
+  if(!user){
     window.location.href = "login.html";
+    return;
   }
+
+  try{
+
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
+
+    if(docSnap.exists()){
+
+      const data = docSnap.data();
+
+      document.getElementById("userName").innerText = data.name || "No Name";
+      document.getElementById("userEmail").innerText = data.email || user.email;
+
+      // Admin check using role
+      if(data.role === "admin"){
+        document.getElementById("adminPanel").innerHTML = `
+          <div class="admin">
+            <h3>👑 Admin Panel</h3>
+            <p>Welcome Admin!</p>
+          </div>
+        `;
+      }
+
+    } else {
+
+      // If Firestore data not found
+      document.getElementById("userName").innerText = "User Data Not Found";
+      document.getElementById("userEmail").innerText = user.email;
+
+    }
+
+  } catch(error){
+    alert("Error loading user data");
+    console.log(error);
+  }
+
 });
 
-// Logout
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  signOut(auth)
-    .then(() => {
-      window.location.href = "login.html";
-    })
-    .catch((error) => {
-      alert("Logout Failed: " + error.message);
-    });
-});
+window.logout = async function(){
+  await signOut(auth);
+  window.location.href = "login.html";
+}
+
+window.toggleDark = function(){
+  document.body.classList.toggle("dark");
+}
 
 </script>
 
