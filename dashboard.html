@@ -1,90 +1,85 @@
-<!DOCTYPE html>  <html>  
-<head>  
-  <title>Dashboard</title>  
-  <style>  
-    body{  
-      margin:0;  
-      font-family: Arial, sans-serif;  
-      background: linear-gradient(135deg, #667eea, #764ba2);  
-      display:flex;  
-      justify-content:center;  
-      align-items:center;  
-      height:100vh;  
-    }  .card{  
-  background:white;  
-  padding:30px;  
-  border-radius:15px;  
-  width:90%;  
-  max-width:400px;  
-  text-align:center;  
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);  
-}  
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: Arial, sans-serif;
+    }
 
-h2{  
-  margin-bottom:10px;  
-  color:#333;  
-}  
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 300px;
+    }
 
-.email{  
-  margin:15px 0;  
-  font-weight:bold;  
-  color:#555;  
-  word-wrap:break-word;  
-}  
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      cursor: pointer;
+      margin-top: 15px;
+    }
 
-button{  
-  padding:10px 20px;  
-  border:none;  
-  border-radius:8px;  
-  background:#667eea;  
-  color:white;  
-  font-size:16px;  
-  cursor:pointer;  
-  transition:0.3s;  
-}  
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
 
-button:hover{  
-  background:#5a67d8;  
+<div class="card">
+  <h2>Welcome 🎉</h2>
+  <p id="userEmail"></p>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// 🔐 Protected Route
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("userEmail").innerText = user.email;
+  } else {
+    // যদি লগইন না থাকে → login page এ পাঠাবে
+    window.location.href = "login.html";
+  }
+});
+
+// Logout function
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  });
 }
 
-  </style>  
-</head>  <body>  <div class="card">  
-  <h2>Welcome 🎉</h2>  
-  <p class="email" id="userEmail"></p>  
-  <button onclick="logout()">Logout</button>  
-</div>  <script type="module">  
-  
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";  
-import { getAuth, onAuthStateChanged, signOut }   
-from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";  
-  
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional  
-const firebaseConfig = {  
-  apiKey: "AIzaSyBZgNI29JXE4jywdgC_Pnyw_FV2vw2KYAw",  
-  authDomain: "pranto-ff.firebaseapp.com",  
-  projectId: "pranto-ff",  
-  storageBucket: "pranto-ff.firebasestorage.app",  
-  messagingSenderId: "936271925064",  
-  appId: "1:936271925064:web:f1710b460c94ff1aee2d7d",  
-  measurementId: "G-V3SWSEZWC3"  
-};  
-const app = initializeApp(firebaseConfig);  
-const auth = getAuth(app);  
-  
-onAuthStateChanged(auth, (user) => {  
-  if(user){  
-    document.getElementById("userEmail").innerText = user.email;  
-  } else {  
-    window.location.href = "login.html";  
-  }  
-});  
-  
-window.logout = function(){  
-  signOut(auth)  
-    .then(() => {  
-      window.location.href = "login.html";  
-    });  
-};  
-  
-</script>  </body>  
-</html>  
+</script>
+
+</body>
+</html>
